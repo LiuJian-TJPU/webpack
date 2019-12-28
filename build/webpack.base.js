@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const { resolve, isDev } = require('./utils.js');
 
@@ -61,13 +61,13 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'] // 从右向左解析原则
-        // use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'] // 从右向左解析原则
+        // use: ['style-loader', 'css-loader'] // 从右向左解析原则
+        use: [isDev? 'style-loader': MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'] // 从右向左解析原则
       },
       {
         test: /\.less$/,
         use: [
-          'style-loader',
+          isDev? 'style-loader': MiniCssExtractPlugin.loader,
           'css-loader',
           { loader: 'less-loader', options: { javascriptEnabled: true } }
         ] // 从右向左解析原则
