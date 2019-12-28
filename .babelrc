@@ -3,15 +3,17 @@
 		[
 			"@babel/preset-env",
 			{
-				"modules": false
+				"modules": false //有助于webpack的treeShirking
 			}
 		],
 		"@babel/preset-react"
 	],
 	"plugins": [
+		["@babel/plugin-proposal-decorators",{"legacy": true}], // 配置对装饰器的支持
+		["@babel/plugin-proposal-class-properties",{"loose": true}], // 支持类属性的插件
 		[
 			"import",
-			{
+			{	
 				"libraryName": "antd",
 				"libraryDirectory": "es",
 				"style": true // `style: true` 会加载 less 文件
