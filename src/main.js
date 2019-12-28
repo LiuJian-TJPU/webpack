@@ -1,6 +1,8 @@
-import a from './a'
-import { b } from './b'
-console.log(b)
+import React from 'react';
+import ReactDom from 'react-dom';
+import App from './App.jsx';
 
-a(1, "a")
-b(2, "b")
+ReactDom.render(
+  <App />,
+  document.getElementById('app')
+);

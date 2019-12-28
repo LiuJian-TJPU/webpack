@@ -1,65 +1,32 @@
-const path = require('path');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const baseConfig = require('./webpack.base')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-module.exports = {
-  mode: 'development', // 开发模式
-  devtool: 'source-map',
-  entry: path.resolve(__dirname, '../src/main.js'),    // 入口文件
+const { resolve } = require('./utils.js');
 
-  output: {
-    filename: 'js/[name][hash:8].js',      // 打包后的文件名称
+
+module.exports = webpackMerge(baseConfig, {
+  // 指定构建环境
+  mode: 'development',
+  devtool: 'eval-source-map',
+  devServer: {
+    contentBase: false,
+    open: true,
+    host: 'dev.flycua.com',
+    disableHostCheck: true,
+    port: 3001,
+    // port: 443,
+    // https: true,
+    overlay: true,
+    hot: true
+    // inline: true
   },
-
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.(png|jpe?g|gif)$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10 * 1024,
-            name: '[name].[hash:4].[ext]',
-            outputPath: 'images/'
-          }
-        }
-      },
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[hash:8].[ext]',
-            outputPath: 'fonts/'
-          }
-        }
-      },
-      {
-        test: /\.css$/,
-        // use:['style-loader','css-loader', 'postcss-loader'] // 从右向左解析原则
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'] // 从右向左解析原则
-      },
-      {
-        test: /\.less$/,
-        // use:['style-loader','css-loader','postcss-loader','less-loader'] // 从右向左解析原则
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader'] // 从右向左解析原则
-      }
-    ]
-  },
-
+  // 插件
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../public/index.html')
+      template: resolve('../public/index.html')
     }),
-    new MiniCssExtractPlugin({
-      filename: "css/[name].[hash:8].css",
-    }),
-    new CleanWebpackPlugin()
+    new webpack.HotModuleReplacementPlugin()
   ]
-}
+});

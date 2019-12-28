@@ -275,3 +275,16 @@ yarn add babel-loader @babel/preset-env @babel/core -D
   ```
 
 - polyfill
+
+
+
+## 2,React
+
+### 2.1 基础
+
+```
+yarn add react reac-dom
+
+yarn add @babel/preset-react webpack-dev-server cross-env webpack-merge -D
+```
+
