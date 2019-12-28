@@ -288,3 +288,87 @@ yarn add react reac-dom
 yarn add @babel/preset-react webpack-dev-server cross-env webpack-merge -D
 ```
 
+
+
+### 2.2 其他配置
+
+- 装饰器
+
+  ```
+  yarn add @babel/plugin-proposal-decorators -D
+  ```
+
+- 类属性
+
+  ```
+  yarn add @babel/plugin-proposal-class-properties -D
+  ```
+
+  ```
+  "plugins": [
+  		["@babel/plugin-proposal-decorators",{"legacy": true}], // 配置对装饰器的支持
+  		["@babel/plugin-proposal-class-properties",{"loose": true}], // 支持类属性的插件
+  		[
+  			"import",
+  			{	
+  				"libraryName": "antd",
+  				"libraryDirectory": "es",
+  				"style": true // `style: true` 会加载 less 文件
+  			}
+  		]
+  	]
+  
+  ```
+
+
+
+
+
+
+
+
+
+
+### 2.2 antd
+
+- 按需导入
+
+  ```
+  yarn add babel-plugin-import -D
+  ```
+
+- babelrc
+
+  ```
+  {
+  	"presets": [
+  		[
+  			"@babel/preset-env",
+  			{
+  				"modules": false
+  			}
+  		],
+  		"@babel/preset-react"
+  	],
+  	"plugins": [
+  		[
+  			"import",
+  			{
+  				"libraryName": "antd",
+  				"libraryDirectory": "es",
+  				"style": true // `style: true` 会加载 less 文件
+  			}
+  		]
+  	]
+  }
+  ```
+
+
+
+
+## 生产环境
+
+```
+mini-css-extract-plugin optimize-css-assets-webpack-plugin uglifyjs-webpack-plugin
+```
+

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Button } from 'antd';
-import Home from './Home.jsx'
+import Home from './Home'
 
 const App = () => (
   <div>
