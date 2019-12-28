@@ -8,12 +8,28 @@ console.log(process.env.NODE_ENV)
 console.log(isDev)
 
 module.exports = {
+  
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    alias: {
+      '@': resolve('src'),
+      'modules': resolve('src/modules'),
+      'components': resolve('src/components'),
+      'constants': resolve('src/constants'),
+      'styles': resolve('src/styles'),
+      'utils': resolve('src/utils'),
+      'selectors': resolve('src/selectors'),
+      'store': resolve('src/redux/store'),
+      'assets': resolve('src/assets'),
+      'actions': resolve('src/redux/actions'),
+      'indexJS': resolve('src/indexJS/indexJS'),
+      'CONF': resolve('src/CONF'),
+      'images': resolve('src/assets/images')
+    }
+  },
 
   entry: resolve('../src/main.js'),    // 入口文件
 
-  // output: {
-  //   filename: 'js/[name][hash:8].js',      // 打包后的文件名称
-  // },
 
   module: {
     rules: [
