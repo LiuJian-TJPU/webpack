@@ -19,11 +19,11 @@ module.exports = {
 
   module: {
     rules: [
-      // {
-      //   test: /\.jsx?$/,
-      //   loader: 'babel-loader',
-      //   exclude: /node_modules/
-      // },
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      },
       {
         test: /\.(png|jpe?g|gif)$/,
         use: {
@@ -58,7 +58,7 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: true,
+    minimize: false,
     minimizer: [
       new TerserPlugin({
         parallel: true,  //使用多进程并行运行来提高构建速度
