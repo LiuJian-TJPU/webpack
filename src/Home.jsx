@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, Button } from 'antd';
+import { Button } from 'antd';
 import { connect } from 'react-redux';
 
 const mapState = (state) => ({
@@ -17,7 +17,7 @@ class Home extends Component {
       <div>
         <Button>{this.props.title}</Button>
         <Button>{this.state.name}</Button>
-        <DatePicker />
+        {/* <DatePicker /> */}
       </div>
     )
   }

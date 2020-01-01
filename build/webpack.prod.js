@@ -1,6 +1,5 @@
-
 const webpackMerge = require('webpack-merge');
-const baseConfig = require('./webpack.base')
+const baseConfig = require('./webpack.base');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -8,7 +7,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-const { resolve } = require('./utils.js');
+const {
+  resolve
+} = require('./utils.js');
 
 
 module.exports = webpackMerge(baseConfig, {
@@ -21,7 +22,7 @@ module.exports = webpackMerge(baseConfig, {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        parallel: true,  //使用多进程并行运行来提高构建速度
+        parallel: true, //使用多进程并行运行来提高构建速度
         terserOptions: {
           compress: {
             drop_console: true
@@ -36,9 +37,9 @@ module.exports = webpackMerge(baseConfig, {
     ],
     splitChunks: {
       chunks: 'all',
-      minSize: 30000,   // 大于30k会被webpack进行拆包
-      minChunks: 1,     // 被引用次数大于等于这个次数进行拆分
-      maxAsyncRequests: 5,  // 最大的按需加载（异步）请求次数
+      minSize: 30000, // 大于30k会被webpack进行拆包
+      minChunks: 1, // 被引用次数大于等于这个次数进行拆分
+      maxAsyncRequests: 5, // 最大的按需加载（异步）请求次数
       maxInitialRequests: 5,
       automaticNameDelimiter: '~', // 打包分隔符
       name: true,
@@ -73,7 +74,7 @@ module.exports = webpackMerge(baseConfig, {
       template: resolve('public/index.html'),
       favicon: resolve('public/favicon.ico'),
       minify: {
-        collapseWhitespace: true//html压缩
+        collapseWhitespace: true //html压缩
       }
     })
     //,new BundleAnalyzerPlugin()//打包分析

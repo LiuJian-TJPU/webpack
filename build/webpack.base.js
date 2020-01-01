@@ -1,13 +1,16 @@
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const { resolve, isDev } = require('./utils.js');
+const {
+  resolve,
+  isDev
+} = require('./utils.js');
 
 console.log(process.env.NODE_ENV)
 console.log(isDev)
 
 module.exports = {
-  
+
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
@@ -27,11 +30,10 @@ module.exports = {
     }
   },
 
-  entry: resolve('src/main.js'),    // 入口文件
+  entry: resolve('src/main.js'), // 入口文件
 
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/
@@ -59,17 +61,25 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: isDev? ['style-loader', 'css-loader']: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'] // 从右向左解析原则
+        use: isDev ? ['style-loader', 'css-loader'] : [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'] // 从右向左解析原则
       },
       {
         test: /\.less$/,
-        use: isDev ? ['style-loader', 'css-loader', { loader: 'less-loader', options: { javascriptEnabled: true } }]:
-              [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', { loader: 'less-loader', options: { javascriptEnabled: true } }]
+        use: isDev ? ['style-loader', 'css-loader', {
+          loader: 'less-loader',
+          options: {
+            javascriptEnabled: true
+          }
+        }] : [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', {
+          loader: 'less-loader',
+          options: {
+            javascriptEnabled: true
+          }
+        }]
       },
       {
         test: /\.(sass|scss)$/,
-        use: isDev ? ['style-loader', 'css-loader', 'sass-loader']:
-              [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
+        use: isDev ? ['style-loader', 'css-loader', 'sass-loader'] : [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
       },
     ]
   },
@@ -77,6 +87,10 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.API': JSON.stringify(process.env.API)
-    })
+    }),
+    // new webpack.DllReferencePlugin({
+    //   context: __dirname,
+    //   manifest: require('./dll/manifest.json'),
+    // }),
   ]
 }

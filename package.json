@@ -9,7 +9,8 @@
     "start": "yarn dev:test",
     "dev:test": "cross-env NODE_ENV=development API=test webpack-dev-server --color --config ./build/webpack.dev.js ",
     "build:test": "cross-env NODE_ENV=production API=test webpack --progress --color --config ./build/webpack.prod.js ",
-    "build:pro": "cross-env NODE_ENV=production API=production webpack --progress --color --config ./build/webpack.prod.js "
+    "build:pro": "cross-env NODE_ENV=production API=production webpack --progress --color --config ./build/webpack.prod.js ",
+    "dll": "webpack --config ./build/webpack.dll.js"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
