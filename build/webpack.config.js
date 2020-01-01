@@ -2,11 +2,16 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
+
+const resolve = p => path.resolve(__dirname, '../', p)
 
 module.exports = {
-  mode: 'development', // 开发模式
-  devtool: 'source-map',
-  entry: path.resolve(__dirname, '../src/main.js'),    // 入口文件
+  mode: 'production', // 开发模式
+  // mode: 'development', // 开发模式
+  // devtool: 'source-map',
+  devtool: false,
+  entry: resolve('src/main.js'),    // 入口文件
 
   output: {
     filename: 'js/[name][hash:8].js',      // 打包后的文件名称
@@ -14,11 +19,11 @@ module.exports = {
 
   module: {
     rules: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      },
+      // {
+      //   test: /\.jsx?$/,
+      //   loader: 'babel-loader',
+      //   exclude: /node_modules/
+      // },
       {
         test: /\.(png|jpe?g|gif)$/,
         use: {
@@ -52,14 +57,28 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,  //使用多进程并行运行来提高构建速度
+        sourceMap: false,
+        terserOptions: {
+          compress: {
+            drop_console: true
+          }
+        }
+      })
+    ],
+  },
 
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../public/index.html')
+      template: resolve('public/index.html')
     }),
     new MiniCssExtractPlugin({
       filename: "css/[name].[hash:8].css",
-    }),
-    new CleanWebpackPlugin()
+    })
   ]
 }
