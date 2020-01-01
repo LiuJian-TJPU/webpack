@@ -1,10 +1,11 @@
 
 const webpackMerge = require('webpack-merge');
 const baseConfig = require('./webpack.base')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const { resolve } = require('./utils.js');
@@ -17,21 +18,19 @@ module.exports = webpackMerge(baseConfig, {
     filename: 'js/[name][contenthash:8].js'
   },
   optimization: {
+    minimize: true,
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         parallel: true,  //使用多进程并行运行来提高构建速度
-        sourceMap: false,
-        uglifyOptions: {
-          warnings: false,
+        terserOptions: {
           compress: {
-            unused: true,
-            drop_debugger: true,
             drop_console: true
           },
           output: {
             comments: false // 去掉注释
           }
-        }
+        },
+        extractComments: false // 不提取注释，默认true
       }),
       new OptimizeCSSAssetsPlugin({})
     ],
@@ -65,13 +64,14 @@ module.exports = webpackMerge(baseConfig, {
     }
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name][contenthash:8].css'
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: resolve('../public/index.html'),
-      favicon: resolve('../public/favicon.ico'),
+      template: resolve('public/index.html'),
+      favicon: resolve('public/favicon.ico'),
       minify: {
         collapseWhitespace: true//html压缩
       }

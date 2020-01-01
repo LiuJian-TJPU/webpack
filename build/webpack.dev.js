@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const baseConfig = require('./webpack.base')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -13,6 +13,7 @@ module.exports = webpackMerge(baseConfig, {
   devServer: {
     contentBase: false,
     open: true,
+    // host: 'localhost',
     host: 'dev.flycua.com',
     disableHostCheck: true,
     port: 3001,
@@ -25,8 +26,8 @@ module.exports = webpackMerge(baseConfig, {
   // 插件
   plugins: [
     new HtmlWebpackPlugin({
-      template: resolve('../public/index.html')
-    }),
-    new webpack.HotModuleReplacementPlugin()
+      template: resolve('public/index.html')
+    })
+    // ,new webpack.HotModuleReplacementPlugin()
   ]
 });

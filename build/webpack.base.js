@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const { resolve, isDev } = require('./utils.js');
@@ -13,7 +12,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     alias: {
       '@': resolve('src'),
-      'modules': resolve('src/modules'),
+      'pages': resolve('src/pages'),
       'components': resolve('src/components'),
       'constants': resolve('src/constants'),
       'styles': resolve('src/styles'),
@@ -28,8 +27,7 @@ module.exports = {
     }
   },
 
-  entry: resolve('../src/main.js'),    // 入口文件
-
+  entry: resolve('src/main.js'),    // 入口文件
 
   module: {
     rules: [
@@ -61,23 +59,22 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        // use: ['style-loader', 'css-loader'] // 从右向左解析原则
-        use: [isDev? 'style-loader': MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'] // 从右向左解析原则
+        use: isDev? ['style-loader', 'css-loader']: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'] // 从右向左解析原则
       },
       {
         test: /\.less$/,
-        use: [
-          isDev? 'style-loader': MiniCssExtractPlugin.loader,
-          'css-loader',
-          { loader: 'less-loader', options: { javascriptEnabled: true } }
-        ] // 从右向左解析原则
-        // use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader'] // 从右向左解析原则
-      }
+        use: isDev ? ['style-loader', 'css-loader', { loader: 'less-loader', options: { javascriptEnabled: true } }]:
+              [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', { loader: 'less-loader', options: { javascriptEnabled: true } }]
+      },
+      {
+        test: /\.(sass|scss)$/,
+        use: isDev ? ['style-loader', 'css-loader', 'sass-loader']:
+              [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
+      },
     ]
   },
 
   plugins: [
-    new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env.API': JSON.stringify(process.env.API)
     })
