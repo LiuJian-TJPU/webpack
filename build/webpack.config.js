@@ -62,13 +62,16 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         parallel: true,  //使用多进程并行运行来提高构建速度
-        sourceMap: false,
         terserOptions: {
           compress: {
             drop_console: true
+          },
+          output: {
+            comments: false // 去掉注释
           }
-        }
-      })
+        },
+        extractComments: false // 不提取注释，默认true
+      }),
     ],
   },
 
