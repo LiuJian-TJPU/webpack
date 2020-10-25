@@ -1,0 +1,17 @@
+.a {
+  color: red;
+  display: flex;
+}
+
+.b {
+  display: grid;
+  color: blue;
+}
+
+:global .c {
+  color: #000;
+}
+:local .d {
+  color: #000;
+  backface-visibility: hidden;
+}
